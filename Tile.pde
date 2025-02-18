@@ -2,10 +2,11 @@
 int w = 185;
 
 class Tile {
-  int i, j;
-  int index;
-  int x, y;
-  int value;
+  color [] colour = {#eee4da, #ede0c8, #f4b17a, #f59563, #e68467, #e46747, #e9d17f, #e8cd72, #e7ca66, #eec746, #ecc230, #fe3d3e};
+  int colorIndex = 0;
+  int numCol = #7e7063;
+  int i, j, value;
+  boolean ready = true;
 
   Tile() {
     i = floor( random(4) );
@@ -13,38 +14,33 @@ class Tile {
 
     if ( random(1) <= 0.1) {
       value = 4;
+      colorIndex++;
     } else {
       value = 2;
     }
-    
-    setIndex();
   }
 
   void show() {
-    fill(32, 128, 255);
-    x = i*200 + 15;
-    y = j*200 + 15;
+    fill(colour[colorIndex]);
+    int x = i*200 + 15;
+    int y = j*200 + 15;
     rect(x, y, w, w);
-    fill(255);
-    text(value, x + 64, y + 128);
-  }
-  
-  void squared(){
-    value = value + value;
+    fill(numCol);
+    textAlign(CENTER, CENTER);
+    text(value, x + w/2, y + w/2);
   }
 
-  void setIndex() {
-    index = j + 4*i;
+  void squared() {
+    if (ready) {
+      value = value + value;
+      if (colorIndex < colour.length) {
+        colorIndex++;
+      }
+      if (value == 8) {
+        numCol = color(255);
+      }
+    }
+    ready = false;
   }
-  
-  void setj(int J){
-    j = J;
-  }
-  
-  int geti(){
-    return i;
-  }
-  int getj(){
-    return j;
-  }
+
 }
